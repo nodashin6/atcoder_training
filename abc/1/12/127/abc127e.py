@@ -4,19 +4,19 @@ def main():
     MOD = 1_000_000_007
     N, M, K = map(int, input().split())
     
-    # nCr = nPr / r!
-    nCr = MODnCr(n=K, mod=MOD)
-    p = permutation(N*M-2, K-2, mod=MOD) * nCr.invfactorial(K-2) % MOD
-    
     ans= 0
     # axis: x
     for d in range(1, N):
-        ans += d * (N-d)*M**2 * p 
+        ans += d * (N-d)*M**2
         ans %= MOD
     # axis: y
     for d in range(1, M):
-        ans += d * (M-d)*N**2* p
+        ans += d * (M-d)*N**2
         ans %= MOD
+
+    nCr = MODnCr(mod=MOD)
+    ans *= nCr(N*M-2, K-2)
+    ans %= MOD
     print(ans)
     return
 
@@ -35,7 +35,7 @@ class MODnCr():
     10 = 5!/(3!2!)
     """
 
-    def __init__(self, n, mod=1_000_000_007):
+    def __init__(self, n=1, mod=1_000_000_007):
         self.n = 1
         self.P = mod
         self.fac0 = [1, 1]  # n!
@@ -53,7 +53,7 @@ class MODnCr():
         if b < 0 or a-b < 0:
             return 0
         if a > self.n:
-            self.setup(start=self.n+1, end=a+1)
+            self._setup(start=self.n+1, end=a+1)
         return self.fac0[a]*self.fac1[b]*self.fac1[a-b] % self.P
 
     def _setup(self, start, end):
@@ -75,14 +75,6 @@ class MODnCr():
         a^(-1) = -(P%a)^(-1) * (P//a)    (mod P)
         """
         return - self.inv0[self.P%v] * (self.P//v) % self.P
-
-
-def permutation(n, k, mod=1_000_000_007):
-    v = 1
-    for i in reversed(range(n-k+1, n+1)):
-        v *= i
-        v %= mod
-    return v
 
 # ----------------------------------------------------------------------------
 # INPUT
