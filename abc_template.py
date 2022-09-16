@@ -10,7 +10,7 @@ def main():
 # ----------------------------------------------------------------------------
 # INPUT
 import sys
-input = sys.stdin.readline
+input = lambda: sys.stdin.readline().rstrip()
 
 
 if __name__ == '__main__':
