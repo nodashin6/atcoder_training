@@ -58,7 +58,7 @@ class UnionFind():
 
     def unite(self, x, y, how='auto'):
         """
-        how : string
+        how : str
             left x <- y
         """
         
